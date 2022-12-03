@@ -232,6 +232,7 @@ export async function sendFileMessage(
   const sendMsgResult = mediaPrep.sendToChat(chat, {
     caption: options.caption,
     footer: options.footer,
+    type: options.type,
     isViewOnce,
     productMsgOptions: rawMessage,
   });
