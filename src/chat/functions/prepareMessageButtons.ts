@@ -295,17 +295,32 @@ webpack.onInjected(() => {
       if (proto.templateMessage) {
         proto.viewOnceMessage = {
           message: {
-            templateMessage: proto.templateMessage,
+            messageContextInfo: {
+              deviceListMetadataVersion: 2,
+              deviceListMetadata: {},
+            },
+            // templateMessage: proto.templateMessage,
+            ...proto,
           },
         };
         delete proto.templateMessage;
       }
       if (proto.buttonsMessage) {
-        proto.viewOnceMessage = {
-          message: {
-            buttonsMessage: proto.buttonsMessage,
-          },
-        };
+        if (proto.buttonsMessage.imageMessage) {
+          proto.viewOnceMessage = {
+            message: {
+              imageMessage: proto.buttonsMessage.imageMessage,
+              ...proto,
+            },
+          };
+        } else {
+          proto.viewOnceMessage = {
+            message: {
+              ...proto,
+            },
+          };
+        }
+
         delete proto.buttonsMessage;
       }
       return proto;
