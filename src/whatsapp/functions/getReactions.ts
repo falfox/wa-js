@@ -1,5 +1,5 @@
 /*!
- * Copyright 2021 WPPConnect Team
+ * Copyright 2022 WPPConnect Team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,38 +14,35 @@
  * limitations under the License.
  */
 
-import { Wid } from '..';
 import { exportModule } from '../exportModule';
+import { MsgKey } from '../misc';
 
-/** @whatsapp 79583 */
-export declare function sendCreateGroup(
-  groupName: string,
-  participants: Wid[],
-  ephemeral?: number,
-  dogfooding?: boolean
-): Promise<{
-  gid: Wid;
-  participants: (
-    | {
-        [key: `${number}@c.us`]: {
-          code: string;
-          invite_code: string | null;
-          invite_code_exp: string | null;
-        };
-      }
-    | {
-        userWid: Wid;
-        code: string;
-        invite_code: string | null;
-        invite_code_exp: string | null;
-      }
-  )[];
-}>;
+/**
+ * @whatsapp 297673
+ * @whatsapp 297673 >= 2.2232.6
+ */
+export interface ReactionReturn {
+  reactionByMe: any;
+  reactions: {
+    aggregateEmoji: string;
+    hasReactionByMe: boolean;
+    senders: {
+      msgKey: MsgKey;
+      orphan: number;
+      parentMsgKey: MsgKey;
+      reactionText: string;
+      read: boolean;
+      senderUserJid: string;
+      timestamp: number;
+    }[];
+  }[];
+}
+export declare function getReactions(msgId: string): Promise<ReactionReturn>;
 
 exportModule(
   exports,
   {
-    sendCreateGroup: 'sendCreateGroup',
+    getReactions: 'getReactions',
   },
-  (m) => m.sendCreateGroup
+  (m) => m.getReactions
 );

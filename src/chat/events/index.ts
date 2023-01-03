@@ -17,6 +17,7 @@
 import './registerAckMessageEvent';
 import './registerLiveLocationUpdateEvent';
 import './registerNewMessageEvent';
+import './registerPollEvent';
 import './registerPresenceChange';
 import './registerRevokeMessageEvent';
 import './registerReactionsEvent';

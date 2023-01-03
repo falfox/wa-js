@@ -1,5 +1,5 @@
 /*!
- * Copyright 2021 WPPConnect Team
+ * Copyright 2022 WPPConnect Team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,38 +14,21 @@
  * limitations under the License.
  */
 
-import { Wid } from '..';
 import { exportModule } from '../exportModule';
+import { MsgKey } from '../misc';
+import { VoteData } from './upsertVotes';
 
-/** @whatsapp 79583 */
-export declare function sendCreateGroup(
-  groupName: string,
-  participants: Wid[],
-  ephemeral?: number,
-  dogfooding?: boolean
-): Promise<{
-  gid: Wid;
-  participants: (
-    | {
-        [key: `${number}@c.us`]: {
-          code: string;
-          invite_code: string | null;
-          invite_code_exp: string | null;
-        };
-      }
-    | {
-        userWid: Wid;
-        code: string;
-        invite_code: string | null;
-        invite_code_exp: string | null;
-      }
-  )[];
-}>;
+/**
+ * @whatsapp 816349
+ * @whatsapp 816349 >= 2.2232.6
+ */
+export declare function getVotes(id: MsgKey): Promise<VoteData[]>;
 
 exportModule(
   exports,
   {
-    sendCreateGroup: 'sendCreateGroup',
+    getVotes: 'getVotes',
+    getVote: 'getVote',
   },
-  (m) => m.sendCreateGroup
+  (m) => m.getVotes && m.getVote
 );
