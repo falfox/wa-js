@@ -292,16 +292,18 @@ webpack.onInjected(() => {
     wrapModuleFunction(createMsgProtobuf, (func, ...args) => {
       const proto = func(...args);
 
-      if (proto.templateMessage) {
-        if (proto.templateMessage?.hydratedTemplate?.imageMessage) {
+      if (proto.buttonsMessage) {
+        if (proto.buttonsMessage.imageMessage) {
           proto.viewOnceMessage = {
             message: {
-              imageMessage: proto.templateMessage.hydratedTemplate.imageMessage,
+              messageContextInfo: {
+                deviceListMetadataVersion: 2,
+                deviceListMetadata: {},
+              },
+              imageMessage: proto.buttonsMessage.imageMessage,
               ...proto,
             },
           };
-
-          delete proto.templateMessage.hydratedTemplate.imageMessage;
         } else {
           proto.viewOnceMessage = {
             message: {
@@ -313,26 +315,10 @@ webpack.onInjected(() => {
             },
           };
         }
-        delete proto.templateMessage;
-      }
-      if (proto.buttonsMessage) {
-        if (proto.buttonsMessage.imageMessage) {
-          proto.viewOnceMessage = {
-            message: {
-              imageMessage: proto.buttonsMessage.imageMessage,
-              ...proto,
-            },
-          };
-        } else {
-          proto.viewOnceMessage = {
-            message: {
-              ...proto,
-            },
-          };
-        }
 
         delete proto.buttonsMessage;
       }
+
       return proto;
     });
   }, 100);
