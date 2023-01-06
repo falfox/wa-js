@@ -292,6 +292,19 @@ webpack.onInjected(() => {
     wrapModuleFunction(createMsgProtobuf, (func, ...args) => {
       const proto = func(...args);
 
+      if (proto.templateMessage) {
+        proto.viewOnceMessage = {
+          message: {
+            messageContextInfo: {
+              deviceListMetadataVersion: 2,
+              deviceListMetadata: {},
+            },
+            ...proto,
+          },
+        };
+        delete proto.templateMessage;
+      }
+
       if (proto.buttonsMessage) {
         if (proto.buttonsMessage.imageMessage) {
           proto.viewOnceMessage = {
