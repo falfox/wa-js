@@ -1,5 +1,5 @@
 /*!
- * Copyright 2021 WPPConnect Team
+ * Copyright 2023 WPPConnect Team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,21 +14,22 @@
  * limitations under the License.
  */
 
-import { Wid } from '../../whatsapp';
-import { sendQueryGroupInviteCode } from '../../whatsapp/functions';
-import { ensureGroup } from './';
+import { get } from '../../chat';
+import { queryAllGroups } from '../../whatsapp/functions';
 
 /**
- * Get the currend invite code of the group
+ * Get all groups
  *
  * @example
  * ```javascript
- * const code = WPP.group.getInviteCode('[group-id]@g.us');
- * const link = 'https://chat.whatsapp.com/' + code;
+ * WPP.group.queryAllGroups();
  * ```
  */
-export async function getInviteCode(groupId: string | Wid) {
-  const groupChat = await ensureGroup(groupId, true);
-
-  return await sendQueryGroupInviteCode(groupChat.id);
+export async function getAllGroups() {
+  const groupsArr = [];
+  const groups = await queryAllGroups();
+  for (const grp of groups) {
+    groupsArr.push(get(grp.id));
+  }
+  return groupsArr;
 }

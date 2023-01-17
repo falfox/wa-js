@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
+import * as webpack from '../webpack';
 import * as collections from './collections';
+import { LiveLocationCollection } from './collections';
 import { exportModule } from './exportModule';
 
 /** @whatsapp 32826
@@ -202,3 +204,23 @@ exportModule(
   },
   (m) => m.StickerPackCollection
 );
+
+const fallback = {};
+let cache: any = null;
+
+// Lazy load
+Object.defineProperty(fallback, 'LiveLocationCollection', {
+  configurable: true,
+  enumerable: true,
+  get() {
+    if (!cache) {
+      cache = new LiveLocationCollection();
+    }
+    return cache;
+  },
+});
+
+/**
+ * @whatsapp >= 2.2301.5
+ */
+webpack.injectFallbackModule('LiveLocationStore', fallback);

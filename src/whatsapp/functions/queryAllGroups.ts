@@ -14,24 +14,41 @@
  * limitations under the License.
  */
 
-import * as webpack from '../../webpack';
-import { Wid } from '..';
 import { exportModule } from '../exportModule';
-import { queryGroupInviteCode } from './';
+import { Wid } from '../misc';
 
-/** @whatsapp 65705 */
-export declare function sendQueryGroupInviteCode(groupId: Wid): Promise<string>;
+/**
+ * @whatsapp 113269
+ */
+
+export interface Group {
+  announce: boolean;
+  creation: number;
+  defaultSubgroup: boolean;
+  id: Wid;
+  incognito: boolean;
+  isParentGroup: boolean;
+  isParentGroupClosed: boolean;
+  membershipApprovalModed: boolean;
+  membershipApprovalRequest: any;
+  noFrequentlyForwarded: boolean;
+  numSubgroups: number;
+  owner: Wid;
+  participants: Wid[];
+  pvId: number;
+  restrict: boolean;
+  size: any;
+  subject: string;
+  subjectTime: number;
+  support: boolean;
+  suspended: boolean;
+}
+export declare function queryAllGroups(): Promise<Group[]>;
 
 exportModule(
   exports,
   {
-    sendQueryGroupInviteCode: 'sendQueryGroupInviteCode',
+    queryAllGroups: 'queryAllGroups',
   },
-  (m) => m.sendQueryGroupInviteCode
+  (m) => m.queryAllGroups
 );
-
-webpack.injectFallbackModule('sendQueryGroupInviteCode', {
-  sendQueryGroupInviteCode: async (groupId: Wid) => {
-    return await queryGroupInviteCode(groupId).then((value) => value.code);
-  },
-});
