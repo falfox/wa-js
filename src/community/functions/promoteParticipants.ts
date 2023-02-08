@@ -1,5 +1,5 @@
 /*!
- * Copyright 2021 WPPConnect Team
+ * Copyright 2023 WPPConnect Team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,20 +14,29 @@
  * limitations under the License.
  */
 
+import { ensureGroupAndParticipants } from '../../group';
 import { Wid } from '../../whatsapp';
-import { ensureGroup } from './';
+import * as wa_functions from '../../whatsapp/functions';
 
 /**
- * Get an array of participants of a group
+ * Promote participant of community to admin
  *
  * @example
  * ```javascript
- * WPP.group.getParticipants('[group-id]@g.us');
+ * await WPP.community.promoteParticipants('123456@g.us', '123456@c.us');
  * ```
  *
- * @category Group
+ * @category Community
  */
-export async function getParticipants(groupId: string | Wid) {
-  const groupChat = await ensureGroup(groupId);
-  return groupChat.groupMetadata!.participants.getModelsArray();
+
+export async function promoteParticipants(
+  communityId: string | Wid,
+  participantsIds: (string | Wid) | (string | Wid)[]
+): Promise<any> {
+  const { groupChat, participants } = await ensureGroupAndParticipants(
+    communityId,
+    participantsIds
+  );
+
+  return wa_functions.promoteCommunityParticipants(groupChat, participants);
 }

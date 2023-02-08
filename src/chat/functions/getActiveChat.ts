@@ -14,11 +14,24 @@
  * limitations under the License.
  */
 
-import './registerAckMessageEvent';
-import './registerActiveChatEvent';
-import './registerLiveLocationUpdateEvent';
-import './registerNewMessageEvent';
-import './registerPollEvent';
-import './registerPresenceChange';
-import './registerReactionsEvent';
-import './registerRevokeMessageEvent';
+import { ChatStore } from '../../whatsapp';
+
+/**
+ * Return the current active chat
+ *
+ * @returns The currenct active chat or undefined for none
+ *
+ * @example
+ * ```javascript
+ * // Get active chat
+ * const chat = WPP.chat.getActiveChat();
+ *
+ * WPP.chat.sendTextMessage(chat.id, 'Hi');
+ * ```
+ * @category Chat
+ */
+export function getActiveChat() {
+  const chat = ChatStore.findFirst((c) => c.active);
+
+  return chat;
+}

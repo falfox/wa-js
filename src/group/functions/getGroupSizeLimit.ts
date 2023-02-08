@@ -1,5 +1,5 @@
 /*!
- * Copyright 2021 WPPConnect Team
+ * Copyright 2023 WPPConnect Team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,11 +14,21 @@
  * limitations under the License.
  */
 
-import './registerAckMessageEvent';
-import './registerActiveChatEvent';
-import './registerLiveLocationUpdateEvent';
-import './registerNewMessageEvent';
-import './registerPollEvent';
-import './registerPresenceChange';
-import './registerReactionsEvent';
-import './registerRevokeMessageEvent';
+import { functions } from '../../whatsapp';
+
+/**
+ * Get the max number of participants for a group
+ *
+ * @example
+ * ```javascript
+ * const limit = await WPP.group.getGroupSizeLimit();
+ * console.log(limit);
+ * ```
+ *
+ * @category Group
+ */
+export async function getGroupSizeLimit() {
+  const limit = functions.getGroupSizeLimit();
+
+  return limit;
+}

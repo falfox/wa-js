@@ -1,5 +1,5 @@
 /*!
- * Copyright 2021 WPPConnect Team
+ * Copyright 2022 WPPConnect Team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,11 +14,17 @@
  * limitations under the License.
  */
 
-import './registerAckMessageEvent';
-import './registerActiveChatEvent';
-import './registerLiveLocationUpdateEvent';
-import './registerNewMessageEvent';
-import './registerPollEvent';
-import './registerPresenceChange';
-import './registerReactionsEvent';
-import './registerRevokeMessageEvent';
+import { exportModule } from '../exportModule';
+
+/**
+ * @whatsapp 97858 >= 2.2304.7
+ */
+export declare function getGroupSizeLimit(groupType?: string): number;
+
+exportModule(
+  exports,
+  {
+    getGroupSizeLimit: 'getGroupSizeLimit',
+  },
+  (m) => m.getGroupSizeLimit
+);

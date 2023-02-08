@@ -1,5 +1,5 @@
 /*!
- * Copyright 2021 WPPConnect Team
+ * Copyright 2023 WPPConnect Team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,11 +14,24 @@
  * limitations under the License.
  */
 
-import './registerAckMessageEvent';
-import './registerActiveChatEvent';
-import './registerLiveLocationUpdateEvent';
-import './registerNewMessageEvent';
-import './registerPollEvent';
-import './registerPresenceChange';
-import './registerReactionsEvent';
-import './registerRevokeMessageEvent';
+import { assertWid } from '../../assert';
+import { Wid } from '../../whatsapp';
+import { sendDeactivateCommunity as SendDeactivateCommunity } from '../../whatsapp/functions';
+
+/**
+ * Deactivated a community
+ *
+ * @example
+ * ```javascript
+ * await WPP.community.deactivate('123456@g.us');
+ * ```
+ *
+ * @category Community
+ */
+
+export async function deactivate(communityId: string | Wid): Promise<any> {
+  const wid = assertWid(communityId);
+  return SendDeactivateCommunity({
+    parentGroupId: wid,
+  });
+}

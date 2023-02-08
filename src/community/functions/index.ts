@@ -1,5 +1,5 @@
 /*!
- * Copyright 2021 WPPConnect Team
+ * Copyright 2023 WPPConnect Team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-import './registerAckMessageEvent';
-import './registerActiveChatEvent';
-import './registerLiveLocationUpdateEvent';
-import './registerNewMessageEvent';
-import './registerPollEvent';
-import './registerPresenceChange';
-import './registerReactionsEvent';
-import './registerRevokeMessageEvent';
+export { addSubgroups } from './addSubgroups';
+export { create } from './create';
+export { deactivate } from './deactivate';
+export { demoteParticipants } from './demoteParticipants';
+export { getParticipants } from './getParticipants';
+export { promoteParticipants } from './promoteParticipants';
+export { removeSubgroups } from './removeSubgroups';
