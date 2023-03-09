@@ -1,5 +1,5 @@
 /*!
- * Copyright 2021 WPPConnect Team
+ * Copyright 2023 WPPConnect Team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,17 +15,16 @@
  */
 
 import { exportModule } from '../exportModule';
-import { MsgModel } from '../models';
 
 /**
- * @whatsapp 973480 >= 2.2241.6
+ * @whatsapp 135963 >= 2.2310.5
  */
-export declare function canReplyMsg(msg: MsgModel): boolean;
+export declare function setPushname(name: string): Promise<void>;
 
 exportModule(
   exports,
   {
-    canReplyMsg: 'canReplyMsg',
+    setPushname: 'setPushname',
   },
-  (m) => m.canReplyMsg
+  (m) => m.setPushname && !m.setBrowserId
 );

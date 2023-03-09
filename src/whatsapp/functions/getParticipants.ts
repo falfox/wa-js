@@ -15,17 +15,26 @@
  */
 
 import { exportModule } from '../exportModule';
-import { MsgModel } from '../models';
+import { Wid } from '../misc';
 
 /**
- * @whatsapp 973480 >= 2.2241.6
+ * @whatsapp 951974 >= 2.2222.8
+ * @whatsapp 318615 >= 2.2224.7
  */
-export declare function canReplyMsg(msg: MsgModel): boolean;
+export declare function getParticipants(group: Wid): Promise<null | {
+  admins: string[];
+  deviceSyncComplete?: any;
+  groupId: string;
+  participants: string[];
+  pastParticipants: string[];
+  rotateKey: boolean;
+  senderKey: Map<string, boolean>;
+}>;
 
 exportModule(
   exports,
   {
-    canReplyMsg: 'canReplyMsg',
+    getParticipants: 'getParticipants',
   },
-  (m) => m.canReplyMsg
+  (m) => m.getParticipants && m.addParticipants
 );

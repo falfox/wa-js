@@ -1,5 +1,5 @@
 /*!
- * Copyright 2021 WPPConnect Team
+ * Copyright 2023 WPPConnect Team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,18 +14,23 @@
  * limitations under the License.
  */
 
-import { exportModule } from '../exportModule';
-import { MsgModel } from '../models';
+import { functions, Wid } from '../../whatsapp';
+import { ensureGroup } from './';
 
 /**
- * @whatsapp 973480 >= 2.2241.6
+ * Remove the group icon (group profile picture)
+ *
+ * @example
+ * ```javascript
+ * await WPP.group.removeIcon('[group@g.us]');
+ * ```
+ *
+ * @category Group
  */
-export declare function canReplyMsg(msg: MsgModel): boolean;
+export async function removeIcon(groupId: string | Wid): Promise<boolean> {
+  const groupChat = await ensureGroup(groupId);
 
-exportModule(
-  exports,
-  {
-    canReplyMsg: 'canReplyMsg',
-  },
-  (m) => m.canReplyMsg
-);
+  const result = await functions.requestDeletePicture(groupChat.id);
+
+  return result.status === 200;
+}

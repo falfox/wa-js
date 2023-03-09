@@ -34,10 +34,20 @@ export declare function sendSetPicture(
   _duplicate: boolean;
 }>;
 
+/**
+ * This function can be used to delete a group picture or self profile
+ * @whatsapp 78426
+ * @whatsapp 5018 >= 2.2204.13
+ */
+export declare function requestDeletePicture(
+  chat: Wid
+): Promise<{ status: number }>;
+
 exportModule(
   exports,
   {
     sendSetPicture: 'sendSetPicture',
+    requestDeletePicture: 'requestDeletePicture',
   },
   (m) => m.sendSetPicture && m.requestDeletePicture
 );

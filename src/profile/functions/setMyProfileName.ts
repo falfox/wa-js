@@ -14,18 +14,21 @@
  * limitations under the License.
  */
 
-import { exportModule } from '../exportModule';
-import { MsgModel } from '../models';
+import { functions } from '../../whatsapp';
 
 /**
- * @whatsapp 973480 >= 2.2241.6
+ * Update your current profile name
+ *
+ * @example
+ * ```javascript
+ * await WPP.profile.setMyProfileName('My new name');
+ * ```
+ *
+ * @category Profile
  */
-export declare function canReplyMsg(msg: MsgModel): boolean;
 
-exportModule(
-  exports,
-  {
-    canReplyMsg: 'canReplyMsg',
-  },
-  (m) => m.canReplyMsg
-);
+export async function setMyProfileName(name: string) {
+  await functions.setPushname(name);
+
+  return true;
+}
