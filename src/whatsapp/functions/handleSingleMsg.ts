@@ -14,25 +14,25 @@
  * limitations under the License.
  */
 
+import { RawMessage } from '../../chat';
 import { exportModule } from '../exportModule';
+import { Wid } from '../misc';
 
 /**
- * @whatsapp 504784 >= 2.2301.6
+ * @whatsapp 359554 >= 2.2230.8
  */
-export declare class WapNode {
-  public tag: any;
-  public attrs: { [key: string]: any };
-  public content: undefined | string | Uint8Array | WapNode[];
-
-  constructor(tag: any, attrs?: { [key: string]: any }, content?: any[]);
-
-  public toString(): string;
-}
+export declare function handleSingleMsg(
+  wid: Wid,
+  msg: RawMessage,
+  type: string,
+  update: boolean,
+  preserveOrder: boolean
+): Promise<any>;
 
 exportModule(
   exports,
   {
-    WapNode: 'WapNode',
+    handleSingleMsg: ['handleSingleMsg'],
   },
-  (m) => m.WapNode
+  (m) => m.handleSingleMsg
 );

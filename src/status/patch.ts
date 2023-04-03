@@ -14,25 +14,26 @@
  * limitations under the License.
  */
 
-import { exportModule } from '../exportModule';
+import { config } from '..';
+import * as webpack from '../webpack';
+import { UserPrefs } from '../whatsapp';
+import { wrapModuleFunction } from '../whatsapp/exportModule';
+import { handleSingleMsg } from '../whatsapp/functions';
 
-/**
- * @whatsapp 504784 >= 2.2301.6
- */
-export declare class WapNode {
-  public tag: any;
-  public attrs: { [key: string]: any };
-  public content: undefined | string | Uint8Array | WapNode[];
+webpack.onReady(applyPatch);
 
-  constructor(tag: any, attrs?: { [key: string]: any }, content?: any[]);
+function applyPatch() {
+  wrapModuleFunction(handleSingleMsg, async (func, ...args) => {
+    const [wid, msg] = args;
 
-  public toString(): string;
+    if (!config.syncAllStatus && wid.isStatusV3()) {
+      const me = UserPrefs.getMaybeMeUser();
+
+      if (msg.author && !me.equals(msg.author)) {
+        return;
+      }
+    }
+
+    return func(...args);
+  });
 }
-
-exportModule(
-  exports,
-  {
-    WapNode: 'WapNode',
-  },
-  (m) => m.WapNode
-);

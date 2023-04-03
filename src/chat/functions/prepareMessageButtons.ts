@@ -20,10 +20,12 @@ import {
   ReplyButtonModel,
   TemplateButtonCollection,
   TemplateButtonModel,
+  websocket,
 } from '../../whatsapp';
 import { DROP_ATTR } from '../../whatsapp/contants';
 import { wrapModuleFunction } from '../../whatsapp/exportModule';
 import {
+  createFanoutMsgStanza,
   createMsgProtobuf,
   encodeMaybeMediaType,
   mediaTypeFromProtobuf,
@@ -293,45 +295,21 @@ webpack.onInjected(() => {
       const proto = func(...args);
 
       if (proto.templateMessage) {
-        proto.viewOnceMessage = {
-          message: {
-            messageContextInfo: {
-              deviceListMetadataVersion: 2,
-              deviceListMetadata: {},
-            },
-            ...proto,
-          },
-        };
-        delete proto.templateMessage;
+        // proto.viewOnceMessage = {
+        //   message: {
+        //     templateMessage: proto.templateMessage,
+        //   },
+        // };
+        // delete proto.templateMessage;
       }
-
-      if (proto.buttonsMessage) {
-        if (proto.buttonsMessage.imageMessage) {
-          proto.viewOnceMessage = {
-            message: {
-              messageContextInfo: {
-                deviceListMetadataVersion: 2,
-                deviceListMetadata: {},
-              },
-              imageMessage: proto.buttonsMessage.imageMessage,
-              ...proto,
-            },
-          };
-        } else {
-          proto.viewOnceMessage = {
-            message: {
-              messageContextInfo: {
-                deviceListMetadataVersion: 2,
-                deviceListMetadata: {},
-              },
-              ...proto,
-            },
-          };
-        }
-
-        delete proto.buttonsMessage;
-      }
-
+      // if (proto.buttonsMessage) {
+      //   proto.viewOnceMessage = {
+      //     message: {
+      //       buttonsMessage: proto.buttonsMessage,
+      //     },
+      //   };
+      //   delete proto.buttonsMessage;
+      // }
       return proto;
     });
   }, 100);
@@ -379,5 +357,57 @@ webpack.onInjected(() => {
     }
 
     return func(...args);
+  });
+
+  wrapModuleFunction(createFanoutMsgStanza, async (func, ...args) => {
+    const [, proto] = args;
+
+    let buttonNode: websocket.WapNode | null = null;
+
+    if (proto.buttonsMessage) {
+      buttonNode = websocket.smax('buttons');
+    } else if (proto.listMessage) {
+      const listType: number = proto.listMessage.listType || 0;
+
+      const types = ['unknown', 'single_select', 'product_list'];
+
+      buttonNode = websocket.smax('list', {
+        v: '2',
+        type: types[listType],
+      });
+    }
+
+    const node = await func(...args);
+
+    if (!buttonNode) {
+      return node;
+    }
+
+    const content = node.content as websocket.WapNode[];
+
+    let bizNode = content.find((c) => c.tag === 'biz');
+
+    if (!bizNode) {
+      bizNode = websocket.smax(
+        'biz',
+        { native_flow_name: 'wa_payment_learn_more' },
+        null
+      );
+      content.push(bizNode);
+    }
+
+    let hasButtonNode = false;
+
+    if (Array.isArray(bizNode.content)) {
+      hasButtonNode = !!bizNode.content.find((c) => c.tag === buttonNode?.tag);
+    } else {
+      bizNode.content = [];
+    }
+
+    if (!hasButtonNode) {
+      bizNode.content.push(buttonNode);
+    }
+
+    return node;
   });
 });

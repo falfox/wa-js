@@ -25,4 +25,5 @@ export const defaultConfig: Config = {
   linkPreviewApiServers: null,
   poweredBy: 'WA-JS',
   sendStatusToDevice: false,
+  syncAllStatus: true,
 };

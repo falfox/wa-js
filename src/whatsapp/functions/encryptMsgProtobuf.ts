@@ -15,24 +15,21 @@
  */
 
 import { exportModule } from '../exportModule';
+import { Wid } from '../misc';
 
 /**
- * @whatsapp 504784 >= 2.2301.6
+ * @whatsapp 309029 >= 2.2312.7
  */
-export declare class WapNode {
-  public tag: any;
-  public attrs: { [key: string]: any };
-  public content: undefined | string | Uint8Array | WapNode[];
-
-  constructor(tag: any, attrs?: { [key: string]: any }, content?: any[]);
-
-  public toString(): string;
-}
+export declare function encryptMsgProtobuf(
+  wid: Wid,
+  retryCount: number,
+  protoMessage: any
+): Promise<{ type: string; ciphertext: Uint8Array }>;
 
 exportModule(
   exports,
   {
-    WapNode: 'WapNode',
+    encryptMsgProtobuf: 'encryptMsgProtobuf',
   },
-  (m) => m.WapNode
+  (m) => m.encryptMsgProtobuf
 );

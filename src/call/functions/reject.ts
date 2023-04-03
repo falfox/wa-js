@@ -24,21 +24,21 @@ import { CALL_STATES } from '../../whatsapp/enums';
  * @example
  * ```javascript
  * // Reject any incoming call
- * WPP.call.rejectCall();
+ * WPP.call.reject();
  *
  * // Reject specific call id
- * WPP.call.rejectCall(callId);
+ * WPP.call.reject(callId);
  *
  * // Reject any incoming call
  * WPP.on('call.incoming_call', (call) => {
- *   WPP.call.rejectCall(call.id);
+ *   WPP.call.reject(call.id);
  * });
  * ```
  *
  * @param   {string}  callId  The call ID, empty to reject the first one
  * @return  {[type]}          [return description]
  */
-export async function rejectCall(callId?: string): Promise<boolean> {
+export async function reject(callId?: string): Promise<boolean> {
   let call: CallModel | undefined = undefined;
 
   if (callId) {
