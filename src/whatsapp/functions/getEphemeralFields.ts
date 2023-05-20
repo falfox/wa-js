@@ -1,5 +1,5 @@
 /*!
- * Copyright 2022 WPPConnect Team
+ * Copyright 2021 WPPConnect Team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,22 +15,21 @@
  */
 
 import { exportModule } from '../exportModule';
-import { MsgModel } from '../models';
+import { ChatModel } from '../models';
 
 /**
- * @whatsapp 755707 >= 2.2307.10
+ * @whatsapp 700154 >= 2.2318.11
  */
-export declare function canEditMsg(msg: MsgModel): boolean;
+export declare function getEphemeralFields(chat: ChatModel): {
+  ephemeralDuration?: number;
+  ephemeralSettingTimestamp?: number;
+  disappearingModeInitiator?: number;
+};
 
 exportModule(
   exports,
   {
-    canEditMsg: [
-      'canEditText', // @whatsapp >= 2.2318.7
-      'canEditMsg',
-    ],
+    getEphemeralFields: 'getEphemeralFields',
   },
-  (m) =>
-    m.canEditMsg || // @whatsapp >= 2.2318.7
-    m.canEditText
+  (m) => m.getEphemeralFields
 );

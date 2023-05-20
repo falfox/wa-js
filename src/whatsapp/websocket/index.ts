@@ -18,5 +18,7 @@ export * from './ensureE2ESessions';
 export * from './generateId';
 export * from './sendSmaxStanza';
 export * from './smax';
+export * from './startWebComms';
+export * from './stopComms';
 export * from './wap';
 export * from './WapNode';

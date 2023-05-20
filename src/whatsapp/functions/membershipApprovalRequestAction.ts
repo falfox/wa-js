@@ -1,5 +1,5 @@
 /*!
- * Copyright 2022 WPPConnect Team
+ * Copyright 2023 WPPConnect Team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,22 +15,25 @@
  */
 
 import { exportModule } from '../exportModule';
-import { MsgModel } from '../models';
+import { Wid } from '../misc';
 
-/**
- * @whatsapp 755707 >= 2.2307.10
+/** @whatsapp 290542
  */
-export declare function canEditMsg(msg: MsgModel): boolean;
+export declare function membershipApprovalRequestAction(
+  groupId: Wid,
+  requestedMembersId: Wid[],
+  type: 'Approve' | 'Reject'
+): Promise<
+  {
+    error: any;
+    wid: Wid;
+  }[]
+>;
 
 exportModule(
   exports,
   {
-    canEditMsg: [
-      'canEditText', // @whatsapp >= 2.2318.7
-      'canEditMsg',
-    ],
+    membershipApprovalRequestAction: 'membershipApprovalRequestAction',
   },
-  (m) =>
-    m.canEditMsg || // @whatsapp >= 2.2318.7
-    m.canEditText
+  (m) => m.membershipApprovalRequestAction
 );

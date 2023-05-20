@@ -105,9 +105,45 @@ export function injectLoader(): void {
           return true;
         });
 
-      await Promise.all(
-        availablesRuntimes.reverse().map((v) => webpackRequire.e(v))
+      const sortWeight: [RegExp, number][] = [
+        [/locale/, 99],
+        [/vendor.*main~/, 84],
+        [/vendor.*main/, 83],
+        [/vendor/, 82],
+        [/main~/, 81],
+        [/main/, 80],
+        [/vendor.*lazy.*high/, 75],
+        [/lazy.*high.*~/, 74],
+        [/lazy.*high/, 73],
+        [/lazy.*low.*~/, 71],
+        [/lazy.*low/, 70],
+        [/lazy/, 1],
+      ];
+
+      const sortValue = (id: string) => {
+        const filename = webpackRequire.u(id);
+
+        for (const w of sortWeight) {
+          if (w[0].test(filename)) {
+            return w[1];
+          }
+        }
+
+        return 0;
+      };
+
+      const sorted = availablesRuntimes.sort(
+        (a, b) => sortValue(b) - sortValue(a)
       );
+
+      // Use sequential file load
+      for (const v of sorted) {
+        try {
+          await webpackRequire.e(v);
+        } catch (error) {
+          debug('load file error', webpackRequire.e(v));
+        }
+      }
 
       isReady = true;
       debug('ready to use');

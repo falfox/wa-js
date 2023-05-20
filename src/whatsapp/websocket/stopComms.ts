@@ -1,5 +1,5 @@
 /*!
- * Copyright 2022 WPPConnect Team
+ * Copyright 2023 WPPConnect Team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,23 +14,19 @@
  * limitations under the License.
  */
 
-import { exportModule } from '../exportModule';
-import { MsgModel } from '../models';
+import { exportModule } from '../../whatsapp/exportModule';
 
 /**
- * @whatsapp 755707 >= 2.2307.10
+ * @whatsapp 67201
  */
-export declare function canEditMsg(msg: MsgModel): boolean;
+export declare function stopComms(): Promise<any>;
+export declare function startHandlingRequests(): Promise<any>;
 
 exportModule(
   exports,
   {
-    canEditMsg: [
-      'canEditText', // @whatsapp >= 2.2318.7
-      'canEditMsg',
-    ],
+    stopComms: 'stopComms',
+    startHandlingRequests: 'startHandlingRequests',
   },
-  (m) =>
-    m.canEditMsg || // @whatsapp >= 2.2318.7
-    m.canEditText
+  (m) => m.stopComms
 );

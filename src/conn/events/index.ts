@@ -21,5 +21,6 @@ import './registerMainInit';
 import './registerMainLoadedEvent';
 import './registerMainReadyEvent';
 import './registerNeedsUpdateEvent';
+import './registerOnlineEvent';
 import './registerQRCodeIdleEvent';
 import './registerRequireAuthEvent';

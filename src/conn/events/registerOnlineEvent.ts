@@ -1,5 +1,5 @@
 /*!
- * Copyright 2022 WPPConnect Team
+ * Copyright 2021 WPPConnect Team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,23 +14,17 @@
  * limitations under the License.
  */
 
-import { exportModule } from '../exportModule';
-import { MsgModel } from '../models';
+import { internalEv } from '../../eventEmitter';
+import * as webpack from '../../webpack';
+import { NetworkStatus, NetworkStatusModel } from '../../whatsapp';
 
-/**
- * @whatsapp 755707 >= 2.2307.10
- */
-export declare function canEditMsg(msg: MsgModel): boolean;
+webpack.onInjected(register);
 
-exportModule(
-  exports,
-  {
-    canEditMsg: [
-      'canEditText', // @whatsapp >= 2.2318.7
-      'canEditMsg',
-    ],
-  },
-  (m) =>
-    m.canEditMsg || // @whatsapp >= 2.2318.7
-    m.canEditText
-);
+function register() {
+  NetworkStatus.on(
+    'change:online',
+    (model: NetworkStatusModel, online: boolean) => {
+      internalEv.emit('conn.online', online);
+    }
+  );
+}

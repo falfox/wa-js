@@ -1,5 +1,5 @@
 /*!
- * Copyright 2022 WPPConnect Team
+ * Copyright 2023 WPPConnect Team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,23 +14,16 @@
  * limitations under the License.
  */
 
-import { exportModule } from '../exportModule';
-import { MsgModel } from '../models';
+import { NetworkStatus } from '../../whatsapp';
 
 /**
- * @whatsapp 755707 >= 2.2307.10
+ * Check is online
+ *
+ * @example
+ * ```javascript
+ * const isOnline = WPP.conn.isOnline();
+ * ```
  */
-export declare function canEditMsg(msg: MsgModel): boolean;
-
-exportModule(
-  exports,
-  {
-    canEditMsg: [
-      'canEditText', // @whatsapp >= 2.2318.7
-      'canEditMsg',
-    ],
-  },
-  (m) =>
-    m.canEditMsg || // @whatsapp >= 2.2318.7
-    m.canEditText
-);
+export function isOnline(): boolean {
+  return NetworkStatus.online;
+}

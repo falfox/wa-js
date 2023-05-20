@@ -14,23 +14,28 @@
  * limitations under the License.
  */
 
+import * as webpack from '../../webpack';
 import { exportModule } from '../exportModule';
 import { MsgModel } from '../models';
 
 /**
- * @whatsapp 755707 >= 2.2307.10
+ * @whatsapp 163755 >= 2.2318.11
  */
-export declare function canEditMsg(msg: MsgModel): boolean;
+export declare function getAsMms(msg: MsgModel): boolean;
 
 exportModule(
   exports,
   {
-    canEditMsg: [
-      'canEditText', // @whatsapp >= 2.2318.7
-      'canEditMsg',
-    ],
+    getAsMms: 'getAsMms', // >= 2.2310.4
   },
-  (m) =>
-    m.canEditMsg || // @whatsapp >= 2.2318.7
-    m.canEditText
+  (m) => m.getAsMms // >= 2.2310.4
 );
+
+/**
+ * @whatsapp < 2.2310.4
+ */
+webpack.injectFallbackModule('getAsMms', {
+  getAsMms: (msg: MsgModel) => {
+    return msg.asMms;
+  },
+});

@@ -1,5 +1,5 @@
 /*!
- * Copyright 2022 WPPConnect Team
+ * Copyright 2021 WPPConnect Team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,22 +15,19 @@
  */
 
 import { exportModule } from '../exportModule';
-import { MsgModel } from '../models';
 
 /**
- * @whatsapp 755707 >= 2.2307.10
+ * @whatsapp 95547
+ * @whatsapp 695547 >= 2.2222.8
+ * @whatsapp 925080 >= 2.2228.4
  */
-export declare function canEditMsg(msg: MsgModel): boolean;
+
+export declare function getABPropConfigValue(value: any): any;
 
 exportModule(
   exports,
   {
-    canEditMsg: [
-      'canEditText', // @whatsapp >= 2.2318.7
-      'canEditMsg',
-    ],
+    getABPropConfigValue: 'getABPropConfigValue',
   },
-  (m) =>
-    m.canEditMsg || // @whatsapp >= 2.2318.7
-    m.canEditText
+  (m) => m.getABPropConfigValue
 );

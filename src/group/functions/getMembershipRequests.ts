@@ -14,24 +14,30 @@
  * limitations under the License.
  */
 
-import { get } from '../../chat';
-import { queryAllGroups } from '../../whatsapp/functions';
+import { assertWid } from '../../assert';
+import { GroupMetadataStore, Wid } from '../../whatsapp';
+import { getMembershipApprovalRequests } from '../../whatsapp/functions';
 
 /**
- * Get all groups
+ * Retrieve a lista of a membership approval requests
  *
  * @example
  * ```javascript
- * WPP.group.getAllGroups();
+ * await WPP.group.getMembershipRequests(12345645@g.us);
  * ```
  *
  * @category Group
  */
-export async function getAllGroups() {
-  const groupsArr = [];
-  const groups = await queryAllGroups();
-  for (const grp of groups) {
-    groupsArr.push(get(grp.id));
-  }
-  return groupsArr;
+export async function getMembershipRequests(groupId: string | Wid): Promise<
+  {
+    addedBy: Wid;
+    id: Wid;
+    parentGroupId?: Wid;
+    requestMethod: 'InviteLink' | 'LinkedGroupJoin' | 'NonAdminAdd';
+    t: number;
+  }[]
+> {
+  groupId = assertWid(groupId);
+  await GroupMetadataStore.find(groupId);
+  return await getMembershipApprovalRequests(groupId);
 }

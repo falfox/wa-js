@@ -1,5 +1,5 @@
-## 2.23.1 (2023-04-03)
+## 2.24.1 (2023-05-19)
 
 ### Bug Fixes
 
-- Fixed buttons/list messages (fix [#1024](https://github.com/wppconnect-team/wa-js/issues/1024), fix [#977](https://github.com/wppconnect-team/wa-js/issues/977)) ([8c91d3f](https://github.com/wppconnect-team/wa-js/commit/8c91d3f149409b81c9f60dbfd266658549a0c719))
+- Fixed send message (DuplicateMessageError) (fix [#1126](https://github.com/wppconnect-team/wa-js/issues/1126)) ([d95b140](https://github.com/wppconnect-team/wa-js/commit/d95b140164e688c2603487602283039114a9e9b0))
