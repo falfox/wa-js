@@ -1,5 +1,5 @@
-## 2.24.1 (2023-05-19)
+## 2.24.3 (2023-06-13)
 
 ### Bug Fixes
 
-- Fixed send message (DuplicateMessageError) (fix [#1126](https://github.com/wppconnect-team/wa-js/issues/1126)) ([d95b140](https://github.com/wppconnect-team/wa-js/commit/d95b140164e688c2603487602283039114a9e9b0))
+- Fixed compatibility with WhatsApp >= 2.2325.3 ([5339618](https://github.com/wppconnect-team/wa-js/commit/53396183f624e5afc0388c2d4374d683dcc43fba))
