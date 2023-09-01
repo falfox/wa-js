@@ -20,7 +20,7 @@ import { Wid } from '../../whatsapp';
 import { wrapModuleFunction } from '../../whatsapp/exportModule';
 import { updateDBForGroupAction } from '../../whatsapp/functions';
 
-webpack.onInjected(() => register());
+webpack.onReady(register);
 
 function register() {
   const eventTypes = ['add', 'remove', 'demote', 'promote'];
@@ -38,7 +38,10 @@ function register() {
           return p;
         });
 
-        if (actionType === 'add' && action.isInvite) {
+        if (
+          actionType === 'add' &&
+          (action.isInvite || action.reason === 'invite')
+        ) {
           actionType = 'join';
         } else if (
           actionType === 'remove' &&

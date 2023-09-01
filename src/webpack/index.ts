@@ -26,24 +26,25 @@ const debug = Debug('WA-JS:webpack');
 export let isInjected = false;
 
 /**
- * Is setted true when the all webpack modules are fully loaded
+ * Is setted true when the main webpack modules are fully loaded
  */
 export let isReady = false;
 
-export function onInjected(listener: () => void): void {
-  internalEv.on('webpack.injected', async () =>
-    Promise.resolve()
-      .then(listener)
-      .catch(() => null)
-  );
+/**
+ * Is setted true when the all webpack modules are fully loaded
+ */
+export let isFullReady = false;
+
+export function onInjected(listener: () => void, delay = 0): void {
+  internalEv.on('webpack.injected', () => {
+    setTimeout(listener, delay);
+  });
 }
 
-export function onReady(listener: () => void): void {
-  internalEv.on('webpack.ready', () =>
-    Promise.resolve()
-      .then(listener)
-      .catch(() => null)
-  );
+export function onReady(listener: () => void, delay = 0): void {
+  internalEv.on('webpack.ready', () => {
+    setTimeout(listener, delay);
+  });
 }
 
 export type SearchModuleCondition = (module: any, moduleId: string) => boolean;
@@ -88,65 +89,51 @@ export function injectLoader(): void {
     debug('injected');
     await internalEv.emitAsync('webpack.injected').catch(() => null);
 
-    const availablesRuntimes = new Array(10000)
+    const allRuntimes = new Array(10000)
       .fill(1)
       .map((v, k) => v + k)
       .filter((v) => {
         const filename = webpackRequire.u(v);
-        if (filename.includes('undefined')) {
-          return false;
-        }
-        if (filename.includes('locales')) {
-          return navigator.languages.some((lang) =>
-            filename.includes(`locales/${lang}`)
-          );
-        }
-        return true;
+        return !filename.includes('undefined');
       });
 
-    const sortWeight: [RegExp, number][] = [
-      [/locale/, 99],
-      [/vendor.*main~/, 84],
-      [/vendor.*main/, 83],
-      [/vendor/, 82],
-      [/main~/, 81],
-      [/main/, 80],
-      [/vendor.*lazy.*high/, 75],
-      [/lazy.*high.*~/, 74],
-      [/lazy.*high/, 73],
-      [/lazy.*low.*~/, 71],
-      [/lazy.*low/, 70],
-      [/lazy/, 1],
-    ];
-
-    const sortValue = (id: string) => {
-      const filename = webpackRequire.u(id);
-
-      for (const w of sortWeight) {
-        if (w[0].test(filename)) {
-          return w[1];
-        }
+    const mainRuntimes = allRuntimes.filter((v) => {
+      const filename = webpackRequire.u(v);
+      if (filename.includes('locales')) {
+        return navigator.languages.some((lang) =>
+          filename.includes(`locales/${lang}`)
+        );
       }
-
-      return 0;
-    };
-
-    const sorted = availablesRuntimes.sort(
-      (a, b) => sortValue(b) - sortValue(a)
-    );
+      return filename.includes('main');
+    });
 
     // Use sequential file load
-    for (const v of sorted) {
+    for (const v of mainRuntimes) {
       try {
         await webpackRequire.e(v);
       } catch (error) {
-        debug('load file error', webpackRequire.e(v));
+        debug('load file error', webpackRequire.u(v));
       }
     }
 
     isReady = true;
     debug('ready to use');
     await internalEv.emitAsync('webpack.ready').catch(() => null);
+
+    await new Promise((resolve) => setTimeout(resolve, 5000));
+
+    // Use sequential file load
+    for (const v of allRuntimes) {
+      try {
+        await webpackRequire.e(v);
+      } catch (error) {
+        debug('load file error', webpackRequire.u(v));
+      }
+    }
+
+    isFullReady = true;
+    debug('full ready to use');
+    await internalEv.emitAsync('webpack.full_ready').catch(() => null);
   };
 
   const id = Date.now();

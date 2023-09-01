@@ -23,7 +23,7 @@ import './gtag';
 import * as webpack from './webpack';
 
 export { webpack };
-export { isInjected, isReady } from './webpack';
+export { isInjected, isReady, isFullReady } from './webpack';
 
 export { config, Config } from './config';
 
@@ -41,6 +41,7 @@ export * as profile from './profile';
 export * as status from './status';
 export * as util from './util';
 export * as whatsapp from './whatsapp';
+export * as order from './order';
 
 export {
   emit,

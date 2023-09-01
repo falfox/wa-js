@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+export * from './addAndSendMessageEdit';
 export * from './addAndSendMsgToChat';
 export * from './addToLabelCollection';
 export * from './blockContact';
@@ -27,6 +28,7 @@ export * from './createFanoutMsgStanza';
 export * from './createGroup';
 export * from './createMsgProtobuf';
 export * from './createOrUpdateReactions';
+export * from './currencyForCountryShortcode';
 export * from './editBusinessProfile';
 export * from './encodeMaybeMediaType';
 export * from './encryptAndSendGroupMsg';
@@ -41,6 +43,7 @@ export * from './genMinimalLinkPreview';
 export * from './getABPropConfigValue';
 export * from './getAsMms';
 export * from './getCommunityParticipants';
+export * from './getCountryShortcodeByPhone';
 export * from './getCurrentLid';
 export * from './getEphemeralFields';
 export * from './getFanOutList';
@@ -49,6 +52,7 @@ export * from './getGroupSizeLimit';
 export * from './getHistorySyncProgress';
 export * from './getMembershipApprovalRequests';
 export * from './getNumChatsPinned';
+export * from './getOrderInfo';
 export * from './getParticipants';
 export * from './getQuotedMsgObj';
 export * from './getReactions';
@@ -67,6 +71,8 @@ export * from './markSeen';
 export * from './mediaTypeFromProtobuf';
 export * from './membershipApprovalRequestAction';
 export * from './msgFindQuery';
+export * from './processRawAudioVideo';
+export * from './processRawMedia';
 export * from './processRawSticker';
 export * from './products';
 export * from './productVisibilitySet';

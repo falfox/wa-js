@@ -1,5 +1,5 @@
 /*!
- * Copyright 2021 WPPConnect Team
+ * Copyright 2023 WPPConnect Team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,16 +14,4 @@
  * limitations under the License.
  */
 
-export * from './blobToArrayBuffer';
-export * from './blobToBase64';
-export * from './convertToFile';
-export * from './createWid';
-export * from './downloadImage';
-export * from './errors';
-export * from './fetchDataFromPNG';
-export * from './generateOrderUniqueId';
-export * from './getVideoInfoFromBuffer';
-export * from './isBase64';
-export * from './resizeImage';
-export * from './types';
-export * from './wrapFunction';
+export { get } from './get';
