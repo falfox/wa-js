@@ -15,6 +15,7 @@
  */
 
 import { exportModule } from '../exportModule';
+import { MsgKey, Wid } from '../misc';
 import { MsgModel } from '../models';
 
 /**
@@ -22,7 +23,22 @@ import { MsgModel } from '../models';
  * @whatsapp 695547 >= 2.2222.8
  * @whatsapp 925080 >= 2.2228.4
  */
-export declare function encryptAndSendMsg(message: MsgModel): Promise<any>;
+export declare function encryptAndSendMsg(
+  msg: {
+    type: string;
+    data: MsgModel;
+  },
+  data: {
+    ack: number;
+    author?: Wid;
+    from: Wid;
+    id: MsgKey;
+    subtype?: string;
+    to: Wid;
+    type: string;
+  },
+  report: any
+): Promise<any>;
 
 exportModule(
   exports,

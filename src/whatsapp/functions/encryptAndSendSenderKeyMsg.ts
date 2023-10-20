@@ -1,5 +1,5 @@
 /*!
- * Copyright 2022 WPPConnect Team
+ * Copyright 2021 WPPConnect Team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,19 +14,40 @@
  * limitations under the License.
  */
 
-import * as webpack from '../../webpack';
 import { exportModule } from '../exportModule';
+import { MsgKey, Wid } from '../misc';
 import { MsgModel } from '../models';
 
 /**
- * @whatsapp 163755 >= 2.2318.11
+ * @whatsapp 95547
+ * @whatsapp 695547 >= 2.2222.8
+ * @whatsapp 925080 >= 2.2228.4
  */
-export declare function getAsMms(msg: MsgModel): boolean;
+export declare function encryptAndSendSenderKeyMsg(
+  msg: {
+    type: string;
+    data: MsgModel;
+  },
+  data: {
+    ack: number;
+    author?: Wid;
+    from: Wid;
+    id: MsgKey;
+    subtype?: string;
+    to: Wid;
+    type: string;
+  },
+  proto: any,
+  skGroup: any,
+  options: any,
+  report: any,
+  other: any
+): Promise<any>;
 
 exportModule(
   exports,
   {
-    getAsMms: 'getAsMms', // >= 2.2310.4
+    encryptAndSendSenderKeyMsg: 'encryptAndSendSenderKeyMsg',
   },
-  (m) => m.getAsMms // >= 2.2310.4
+  (m) => m.encryptAndSendSenderKeyMsg
 );

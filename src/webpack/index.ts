@@ -47,6 +47,12 @@ export function onReady(listener: () => void, delay = 0): void {
   });
 }
 
+export function onFullReady(listener: () => void, delay = 0): void {
+  internalEv.on('webpack.full_ready', () => {
+    setTimeout(listener, delay);
+  });
+}
+
 export type SearchModuleCondition = (module: any, moduleId: string) => boolean;
 
 export let webpackRequire: (<T = any>(moduleId: string) => T) & {
@@ -69,6 +75,8 @@ export let webpackRequire: (<T = any>(moduleId: string) => T) & {
  */
 export const fallbackModules: { [key: string]: any } = {};
 
+const waitMainReady = internalEv.waitFor('conn.main_ready');
+
 export function injectLoader(): void {
   if (isInjected) {
     return;
@@ -89,22 +97,24 @@ export function injectLoader(): void {
     debug('injected');
     await internalEv.emitAsync('webpack.injected').catch(() => null);
 
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
     const allRuntimes = new Array(10000)
       .fill(1)
       .map((v, k) => v + k)
       .filter((v) => {
         const filename = webpackRequire.u(v);
+        if (filename.includes('locales')) {
+          return navigator.languages.some((lang) =>
+            filename.includes(`locales/${lang}`)
+          );
+        }
         return !filename.includes('undefined');
       });
 
     const mainRuntimes = allRuntimes.filter((v) => {
       const filename = webpackRequire.u(v);
-      if (filename.includes('locales')) {
-        return navigator.languages.some((lang) =>
-          filename.includes(`locales/${lang}`)
-        );
-      }
-      return filename.includes('main');
+      return filename.includes('main') && !filename.includes('locales');
     });
 
     // Use sequential file load
@@ -120,7 +130,11 @@ export function injectLoader(): void {
     debug('ready to use');
     await internalEv.emitAsync('webpack.ready').catch(() => null);
 
-    await new Promise((resolve) => setTimeout(resolve, 5000));
+    if ((window as any).wppForceMainLoad) {
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+    } else {
+      await waitMainReady;
+    }
 
     // Use sequential file load
     for (const v of allRuntimes) {
