@@ -14,11 +14,19 @@
  * limitations under the License.
  */
 
-export * from './ACK';
-export * from './CALL_STATES';
-export * from './GROUP_SETTING_TYPE';
-export * from './KIC_ENTRY_POINT_TYP';
-export * from './LogoutReason';
-export * from './MSG_TYPE';
-export * from './OUTWARD_TYPES';
-export * from './SendMsgResult';
+import { functions } from '../../whatsapp';
+
+/**
+ * Get your current profile name
+ *
+ * @example
+ * ```javascript
+ * const myProfileName = WPP.profile.getMyProfileName();
+ * ```
+ *
+ * @category Profile
+ */
+
+export function getMyProfileName() {
+  return functions.getPushname();
+}

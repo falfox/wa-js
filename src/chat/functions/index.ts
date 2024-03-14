@@ -37,6 +37,7 @@ export { getQuotedMsg } from './getQuotedMsg';
 export { getQuotedMsgKey } from './getQuotedMsgKey';
 export { getReactions } from './getReactions';
 export { getVotes } from './getVotes';
+export { keepMessage } from './keepMessage';
 export { ChatListOptions, list } from './list';
 export { markIsComposing } from './markIsComposing';
 export { markIsPaused } from './markIsPaused';
@@ -70,15 +71,26 @@ export {
   StickerMessageOptions,
   VideoMessageOptions,
 } from './sendFileMessage';
+export {
+  GroupInviteMessage,
+  sendGroupInviteMessage,
+} from './sendGroupInviteMessage';
 export { ListMessageOptions, sendListMessage } from './sendListMessage';
 export {
   LocationMessageOptions,
   sendLocationMessage,
 } from './sendLocationMessage';
-export { sendOrderMessage } from './sendOrderMessage';
+export {
+  OrderItems,
+  OrderMessageOptions,
+  sendOrderMessage,
+} from './sendOrderMessage';
 export { sendRawMessage } from './sendRawMessage';
 export { sendReactionToMessage } from './sendReactionToMessage';
-export { sendScheduledCallMessage } from './sendScheduledCallMessage';
+export {
+  ScheduledCallMessageOptions,
+  sendScheduledCallMessage,
+} from './sendScheduledCallMessage';
 export { sendTextMessage, TextMessageOptions } from './sendTextMessage';
 export {
   sendVCardContactMessage,

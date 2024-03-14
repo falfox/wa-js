@@ -332,14 +332,16 @@ webpack.onFullReady(() => {
   });
 
   wrapModuleFunction(createFanoutMsgStanza, async (func, ...args) => {
-    const [, proto] = args;
+    const [, , proto] = args;
 
     let buttonNode: websocket.WapNode | null = null;
 
     if (proto.buttonsMessage) {
       buttonNode = websocket.smax('buttons');
     } else if (proto.listMessage) {
-      const listType: number = proto.listMessage.listType || 0;
+      // The trick to send list message is to force the 'product_list' type in the biz node
+      // const listType: number = proto.listMessage.listType || 0;
+      const listType = 2;
 
       const types = ['unknown', 'single_select', 'product_list'];
 

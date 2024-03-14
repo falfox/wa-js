@@ -1,5 +1,5 @@
 /*!
- * Copyright 2021 WPPConnect Team
+ * Copyright 2023 WPPConnect Team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,11 +14,25 @@
  * limitations under the License.
  */
 
-export * from './ACK';
-export * from './CALL_STATES';
-export * from './GROUP_SETTING_TYPE';
-export * from './KIC_ENTRY_POINT_TYP';
-export * from './LogoutReason';
-export * from './MSG_TYPE';
-export * from './OUTWARD_TYPES';
-export * from './SendMsgResult';
+import { ContactStore, functions, Wid } from '../../whatsapp';
+
+/**
+ * Get all commons groups for the contact
+ *
+ * @example
+ * ```javascript
+ * const groups_ids = await WPP.contact.getCommonGroups('[number]@c.us');
+ * ```
+ *
+ * @category Contact
+ */
+export async function getCommonGroups(wid: Wid | string) {
+  const contact = ContactStore.get(wid);
+
+  if (!contact) {
+    return [];
+  }
+
+  const groups = await functions.findCommonGroups(contact);
+  return groups.getModelsArray().map((g) => g.id);
+}

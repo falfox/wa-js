@@ -1,5 +1,5 @@
 /*!
- * Copyright 2021 WPPConnect Team
+ * Copyright 2023 WPPConnect Team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
+import { BaseCollection } from '../collections';
 import { exportModule } from '../exportModule';
+import { ChatModel, ContactModel } from '../models';
 
-declare class LocaleClass {}
-
-/** @whatsapp 14296
- * @whatsapp 43725 >= 2.2204.13
- * @whatsapp 914296 >= 2.2222.8
- * @whatsapp 568064 >= 2.2230.8
+/**
+ * @whatsapp 714574
  */
-export declare const Locale: LocaleClass;
+export declare function findCommonGroups(
+  wid: ContactModel
+): Promise<BaseCollection<ChatModel>>;
 
 exportModule(
   exports,
   {
-    Locale: 'default',
+    findCommonGroups: 'findCommonGroups',
   },
-  (m) => m.default.downloadAndSetTranslation
+  (m) => m.findCommonGroups
 );

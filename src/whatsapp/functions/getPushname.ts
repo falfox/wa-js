@@ -1,5 +1,5 @@
 /*!
- * Copyright 2021 WPPConnect Team
+ * Copyright 2023 WPPConnect Team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,11 +14,17 @@
  * limitations under the License.
  */
 
-export * from './ACK';
-export * from './CALL_STATES';
-export * from './GROUP_SETTING_TYPE';
-export * from './KIC_ENTRY_POINT_TYP';
-export * from './LogoutReason';
-export * from './MSG_TYPE';
-export * from './OUTWARD_TYPES';
-export * from './SendMsgResult';
+import { exportModule } from '../exportModule';
+
+/**
+ * @whatsapp 135963 >= 2.2310.5
+ */
+export declare function getPushname(): string;
+
+exportModule(
+  exports,
+  {
+    getPushname: 'getPushname',
+  },
+  (m) => m.getPushname && m.setBrowserId
+);

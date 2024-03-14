@@ -15,6 +15,7 @@
  */
 
 export { editBusinessProfile } from './editBusinessProfile';
+export { getMyProfileName } from './getMyProfileName';
 export { getMyStatus } from './getMyStatus';
 export { isBusiness } from './isBusiness';
 export { removeMyProfilePicture } from './removeMyProfilePicture';

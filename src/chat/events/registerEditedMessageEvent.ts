@@ -14,11 +14,20 @@
  * limitations under the License.
  */
 
-export * from './ACK';
-export * from './CALL_STATES';
-export * from './GROUP_SETTING_TYPE';
-export * from './KIC_ENTRY_POINT_TYP';
-export * from './LogoutReason';
-export * from './MSG_TYPE';
-export * from './OUTWARD_TYPES';
-export * from './SendMsgResult';
+import { internalEv } from '../../eventEmitter';
+import * as webpack from '../../webpack';
+import { MsgModel, MsgStore } from '../../whatsapp';
+
+webpack.onFullReady(registerAckMessageEvent);
+
+function registerAckMessageEvent() {
+  MsgStore.on('change:latestEditMsgKey', (msg: MsgModel) => {
+    queueMicrotask(() => {
+      internalEv.emit('chat.msg_edited', {
+        chat: msg.to!,
+        id: msg.id.toString(),
+        msg: msg,
+      });
+    });
+  });
+}
