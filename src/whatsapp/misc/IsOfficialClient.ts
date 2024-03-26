@@ -1,5 +1,5 @@
 /*!
- * Copyright 2021 WPPConnect Team
+ * Copyright 2024 WPPConnect Team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,11 +14,24 @@
  * limitations under the License.
  */
 
-export interface Label {
-  id: string;
-  name: string;
-  color: number | null;
-  count: number;
-  hexColor: string;
-  colorIndex: number;
+import * as webpack from '../../webpack';
+import { exportModule } from '../exportModule';
+
+/**
+ * @whatsapp >= 2.3000.x
+ */
+export declare namespace IsOfficialClient {
+  function isLegitErrorStack(): boolean;
+  let isOfficialClient: boolean;
 }
+
+exportModule(
+  exports,
+  'IsOfficialClient',
+  (m) => m.isOfficialClient && m.isLegitErrorStack
+);
+
+webpack.injectFallbackModule('IsOfficialClient', {
+  isOfficialClient: true,
+  isLegitErrorStack: () => true,
+});

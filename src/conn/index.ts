@@ -15,6 +15,7 @@
  */
 
 import './events';
+import './patch';
 
 export * from './functions';
 export * from './types';
